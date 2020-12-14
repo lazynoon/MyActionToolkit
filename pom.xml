@@ -90,4 +90,34 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>maven-release</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/lazynoon/toolkit</url>
+        <connection>https://github.com/lazynoon/toolkit.git</connection>
+        <developerConnection>https://github.com/lazynoon/toolkit</developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <name>Hansen</name>
+            <email>hansen@lazynoon.com</email>
+            <url>https://github.com/lazynoon/toolkit</url>
+        </developer>
+    </developers>
+
 </project>
