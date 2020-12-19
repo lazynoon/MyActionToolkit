@@ -6,8 +6,8 @@
 
     <groupId>com.github.lazynoon</groupId>
     <artifactId>toolkit</artifactId>
-    <version>1.0.0</version>
-    <name>Toolkit</name>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>MyAction Toolkit</name>
     <description>MyAction Toolkit</description>
     <url>https://github.com/lazynoon/toolkit</url>
 
