@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.lazynoon</groupId>
-    <artifactId>toolkit</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <artifactId>myaction-toolkit</artifactId>
+    <version>1.0.0</version>
     <name>MyAction Toolkit</name>
     <description>MyAction Toolkit</description>
-    <url>https://github.com/lazynoon/toolkit</url>
+    <url>https://github.com/lazynoon/MyActionToolkit</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,8 +19,52 @@
         <dependency>
             <groupId>com.github.lazynoon</groupId>
             <artifactId>myaction</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.22</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.jsqlx</groupId>
+            <artifactId>jsqlx</artifactId>
+            <version>1.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -108,15 +152,15 @@
         </license>
     </licenses>
     <scm>
-        <url>https://github.com/lazynoon/toolkit</url>
-        <connection>https://github.com/lazynoon/toolkit.git</connection>
-        <developerConnection>https://github.com/lazynoon/toolkit</developerConnection>
+        <url>https://github.com/lazynoon/MyActionToolkit</url>
+        <connection>https://github.com/lazynoon/MyActionToolkit.git</connection>
+        <developerConnection>https://github.com/lazynoon/MyActionToolkit</developerConnection>
     </scm>
     <developers>
         <developer>
             <name>Hansen</name>
             <email>hansen@lazynoon.com</email>
-            <url>https://github.com/lazynoon/toolkit</url>
+            <url>https://github.com/lazynoon/MyActionToolkit</url>
         </developer>
     </developers>
 
