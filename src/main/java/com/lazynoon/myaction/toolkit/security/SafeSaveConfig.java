@@ -22,12 +22,12 @@ public class SafeSaveConfig {
 	private static RSA privateRSA = null;
 	private static long TIMEOUT = 28 * 1000;
 	private static String NAME_ENV = "myaction.env";
-	public static String NAME_SAFE_KEK_DSN = "myaction.safesave.kek.dsn";
-	public static String NAME_SAFE_KEK_RSA = "myaction.safesave.kek.rsa";
-	public static String NAME_SAFE_KEK_AES = "myaction.safesave.kek.aes";
-	public static String NAME_SAFE_DEK_CLASS_MAPPING = "myaction.safesave.dek.class.mapping";
-	public static String NAME_SAFE_KEY_ID = "myaction.safesave.key.id";
-	public static String NAME_SAFE_MAPPING_ID = "myaction.safesave.mapping.id";
+	public static String NAME_KEK_DSN = "myaction.safesave.kek.dsn";
+	public static String NAME_KEK_RSA = "myaction.safesave.kek.rsa";
+	public static String NAME_KEK_AES = "myaction.safesave.kek.aes";
+	public static String NAME_DEK_KEY_ID = "myaction.safesave.dek.key.id";
+	public static String NAME_DEK_MAPPING_CLASS = "myaction.safesave.dek.mapping.class";
+	public static String NAME_DEK_MAPPING_ID = "myaction.safesave.dek.mapping.id";
 
 
 	public static boolean isProductionEnv() {
@@ -35,9 +35,9 @@ public class SafeSaveConfig {
 	}
 
 	public static Map<Integer, byte[]> getCurrentMappingConfig() throws SafeCryptoException {
-		String mappingClassName = AppConfig.getProperty(NAME_SAFE_DEK_CLASS_MAPPING);
+		String mappingClassName = AppConfig.getProperty(NAME_DEK_MAPPING_CLASS);
 		if (MixedUtils.isEmpty(mappingClassName)) {
-			throw new SafeCryptoException(601, "undefined byte mapping class: " + NAME_SAFE_DEK_CLASS_MAPPING);
+			throw new SafeCryptoException(601, "undefined byte mapping class: " + NAME_DEK_MAPPING_CLASS);
 		}
 		try {
 			Class clazz = Class.forName(mappingClassName);
@@ -62,9 +62,9 @@ public class SafeSaveConfig {
 	}
 
 	public static int getCurrentKeyId() throws SafeCryptoException {
-		String keyId = AppConfig.getProperty(NAME_SAFE_KEY_ID);
+		String keyId = AppConfig.getProperty(NAME_DEK_KEY_ID);
 		if (MixedUtils.isEmpty(keyId)) {
-			throw new SafeCryptoException(605, "undefined key id: " + NAME_SAFE_KEY_ID);
+			throw new SafeCryptoException(605, "undefined key id: " + NAME_DEK_KEY_ID);
 		}
 		int id = MixedUtils.parseInt(keyId);
 		if (id <= 0) {
@@ -83,9 +83,9 @@ public class SafeSaveConfig {
 	}
 
 	public static int getCurrentMappingId() throws SafeCryptoException {
-		String mappingId = AppConfig.getProperty(NAME_SAFE_MAPPING_ID);
+		String mappingId = AppConfig.getProperty(NAME_DEK_MAPPING_ID);
 		if (MixedUtils.isEmpty(mappingId)) {
-			throw new SafeCryptoException(605, "undefined byte mapping id: " + NAME_SAFE_MAPPING_ID);
+			throw new SafeCryptoException(605, "undefined byte mapping id: " + NAME_DEK_MAPPING_ID);
 		}
 		int id = MixedUtils.parseInt(mappingId);
 		if (id <= 0) {
@@ -104,17 +104,17 @@ public class SafeSaveConfig {
 	}
 
 	private static String getAesForKEK() throws SafeCryptoException {
-		String rsaKey = AppConfig.getProperty(NAME_SAFE_KEK_AES);
+		String rsaKey = AppConfig.getProperty(NAME_KEK_AES);
 		if (MixedUtils.isEmpty(rsaKey)) {
-			throw new SafeCryptoException(605, "undefined kek rsa key: " + NAME_SAFE_KEK_RSA);
+			throw new SafeCryptoException(605, "undefined kek rsa key: " + NAME_KEK_RSA);
 		}
 		return rsaKey;
 	}
 
 	private static String getRsaForKEK() throws SafeCryptoException {
-		String rsaKey = AppConfig.getProperty(NAME_SAFE_KEK_RSA);
+		String rsaKey = AppConfig.getProperty(NAME_KEK_RSA);
 		if (MixedUtils.isEmpty(rsaKey)) {
-			throw new SafeCryptoException(605, "undefined kek rsa key: " + NAME_SAFE_KEK_RSA);
+			throw new SafeCryptoException(605, "undefined kek rsa key: " + NAME_KEK_RSA);
 		}
 		return rsaKey;
 	}
@@ -127,9 +127,9 @@ public class SafeSaveConfig {
 		} catch (CryptoException e) {
 			throw new SafeCryptoException(605, "[CryptoException] "+ e.getMessage());
 		}
-		String kekDsn = AppConfig.getProperty(NAME_SAFE_KEK_DSN);
+		String kekDsn = AppConfig.getProperty(NAME_KEK_DSN);
 		if (MixedUtils.isEmpty(kekDsn)) {
-			throw new SafeCryptoException(605, "undefined key: " + NAME_SAFE_KEK_DSN);
+			throw new SafeCryptoException(605, "undefined key: " + NAME_KEK_DSN);
 		}
 		try {
 			MiddlewareClient kekClient = MiddlewareClient.instance(kekDsn);
