@@ -135,7 +135,7 @@ public class SafeSaveConfig {
 			MiddlewareClient kekClient = MiddlewareClient.instance(kekDsn);
 			Mixed args = new Mixed();
 			args.put("key_id", keyId);
-			Mixed result = kekClient.request("safesave/dek.get", args, TIMEOUT);
+			Mixed result = kekClient.request("queryDEK.getKey", args, TIMEOUT);
 			if(result.getInt("error") != 0) {
 				throw new SafeCryptoException(606, "Can not get DEK. error: " + result.getInt("error")
 						+ ", reason: " + result.getString("reason"));
