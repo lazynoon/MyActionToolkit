@@ -15,7 +15,7 @@ import net_io.utils.MixedUtils;
 import java.io.IOException;
 import java.util.Map;
 
-public class SafeConfig {
+public class SafeSaveConfig {
 	public static final int PRODUCTION_MIN_KEY_ID = 1000;
 	public static final int PRODUCTION_MIN_MAPPING_ID = 10;
 	private static String encryptKeyPrefix = "KtL0lO55i3rhAMbS";

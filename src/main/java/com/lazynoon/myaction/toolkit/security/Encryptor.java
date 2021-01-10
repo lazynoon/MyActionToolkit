@@ -22,13 +22,13 @@ public class Encryptor {
 
 	private Encryptor() throws SafeCryptoException {
 		//注册到密钥对象
-		Map<Integer, byte[]> mappings = SafeConfig.getCurrentMappingConfig();
+		Map<Integer, byte[]> mappings = SafeSaveConfig.getCurrentMappingConfig();
 		for (Integer mappingId : mappings.keySet()) {
 			keyStore.registerByteMapping(mappingId, mappings.get(mappingId));
 		}
-		currentKeyId = SafeConfig.getCurrentKeyId();
-		currentMappingId = SafeConfig.getCurrentMappingId();
-		keyStore.registerSecretKey(currentKeyId, SafeConfig.getDataKey(currentKeyId));
+		currentKeyId = SafeSaveConfig.getCurrentKeyId();
+		currentMappingId = SafeSaveConfig.getCurrentMappingId();
+		keyStore.registerSecretKey(currentKeyId, SafeSaveConfig.getDataKey(currentKeyId));
 	}
 
 	private static synchronized void instanceInit() throws SafeCryptoException {
