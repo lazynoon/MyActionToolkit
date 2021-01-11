@@ -8,7 +8,7 @@ import net_io.utils.EncodeUtils;
 /**
  * 密钥解密：
  */
-class KEKUtils {
+public class KEKDecryptUtils {
 	private static final int MAJOR_VERSION = 1;
 	private static final int HEAD_LENGTH = 32;
 	private static final int MD5_CODE_LENGTH = 16;

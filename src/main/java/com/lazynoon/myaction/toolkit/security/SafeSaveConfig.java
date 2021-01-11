@@ -3,11 +3,8 @@ package com.lazynoon.myaction.toolkit.security;
 import com.lazynoon.commons.safesave.SafeCryptoException;
 import myaction.extend.AppConfig;
 import myaction.extend.MiddlewareClient;
-import net_io.myaction.CheckException;
-import net_io.myaction.tool.crypto.AES;
 import net_io.myaction.tool.crypto.RSA;
 import net_io.myaction.tool.exception.CryptoException;
-import net_io.utils.DateUtils;
 import net_io.utils.EncodeUtils;
 import net_io.utils.Mixed;
 import net_io.utils.MixedUtils;
@@ -104,11 +101,11 @@ public class SafeSaveConfig {
 	}
 
 	private static String getAesForKEK() throws SafeCryptoException {
-		String rsaKey = AppConfig.getProperty(NAME_KEK_AES);
-		if (MixedUtils.isEmpty(rsaKey)) {
-			throw new SafeCryptoException(605, "undefined kek rsa key: " + NAME_KEK_RSA);
+		String aesKey = AppConfig.getProperty(NAME_KEK_AES);
+		if (MixedUtils.isEmpty(aesKey)) {
+			throw new SafeCryptoException(605, "undefined kek aes key: " + NAME_KEK_RSA);
 		}
-		return rsaKey;
+		return aesKey;
 	}
 
 	private static String getRsaForKEK() throws SafeCryptoException {
@@ -123,7 +120,7 @@ public class SafeSaveConfig {
 		String rsaKey = getRsaForKEK();
 		String aesKey = getAesForKEK();
 		try {
-			rsaKey = KEKUtils.decryptKey(rsaKey, aesKey);
+			rsaKey = KEKDecryptUtils.decryptKey(rsaKey, aesKey);
 		} catch (CryptoException e) {
 			throw new SafeCryptoException(605, "[CryptoException] "+ e.getMessage());
 		}
@@ -143,9 +140,13 @@ public class SafeSaveConfig {
 						+ ", reason: " + result.getString("reason"));
 			}
 			Mixed data = result.get("data");
-			String dek = data.getString("dek");
+			if(data.isSelfEmpty() || data.isEmpty("secret_key")) {
+				throw new SafeCryptoException(606, "secret key is not exist: " + keyId);
+			}
+			String secretKey = data.getString("secret_key");
 			RSA rsa = new RSA(RSA.KeyMode.PRIVATE_KEY, rsaKey);
-			return rsa.decrypt(dek.getBytes(EncodeUtils.Charsets.UTF_8));
+			byte[] dek = EncodeUtils.myBase62Decode(secretKey);
+			return rsa.decrypt(dek);
 		} catch (IOException e) {
 			throw new SafeCryptoException(607, "Can not get KEK. IOException: " + e.getMessage());
 		} catch (CryptoException e) {
