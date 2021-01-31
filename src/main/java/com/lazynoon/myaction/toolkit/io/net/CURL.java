@@ -488,8 +488,12 @@ public class CURL {
 
 		@Override
 		public Socket connectSocket(int connectTimeout, Socket sock, HttpHost host, InetSocketAddress remoteAddress, InetSocketAddress localAddress, HttpContext context) throws IOException {
-			InetSocketAddress unresolvedRemote = InetSocketAddress.createUnresolved(host.getHostName(), remoteAddress.getPort());
-			return super.connectSocket(connectTimeout, sock, host, unresolvedRemote, localAddress, context);
+			if(proxyType == ProxyType.SOCK5) {
+				InetSocketAddress unresolvedRemote = InetSocketAddress.createUnresolved(host.getHostName(), remoteAddress.getPort());
+				return super.connectSocket(connectTimeout, sock, host, unresolvedRemote, localAddress, context);
+			} else {
+				return super.connectSocket(connectTimeout, sock, host, remoteAddress, localAddress, context);
+			}
 		}
 	}
 
