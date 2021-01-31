@@ -71,7 +71,7 @@ public class CURL {
 		HTTP,
 		SOCK5
 	};
-	private long timeout = 30 * 000;
+	private long timeout = 30L * 1000L;
 	private LinkedHashMap<String, String> headers = null;
 	private LinkedHashMap<String, String> cookies = null;
 	private String sendEncoding = "UTF-8";
