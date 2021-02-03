@@ -303,7 +303,7 @@ public class CURL {
 
 				HostnameVerifier verifier = new HostnameVerifier() {
 					public boolean verify(String hostname, SSLSession session) {
-						System.out.println("hostname: " + hostname);
+						//System.out.println("hostname: " + hostname);
 						return true;
 					}
 				};
