@@ -43,7 +43,7 @@ public class Encryptor {
 		int minorVersion = SafeEncryptorFactory.getMinorVersion(data);
 		SafeEncryptor encryptor = SafeEncryptorFactory.getInstance(majorVersion, minorVersion, keyStore);
 		if(encryptor == null) {
-			throw new IllegalArgumentException("not support encrypt version: "+minorVersion+", "+minorVersion);
+			throw new SafeCryptoException(-1, "not support encrypt version: "+majorVersion+", "+minorVersion);
 		}
 		return encryptor.decrypt(data);
 	}
@@ -51,7 +51,7 @@ public class Encryptor {
 	protected byte[] _encrypt(byte[] data) throws SafeCryptoException {
 		SafeEncryptor encryptor = SafeEncryptorFactory.getInstance(currentMajorVersion, currentMinorVersion, keyStore);
 		if(encryptor == null) {
-			throw new IllegalArgumentException("not support encrypt version: "+currentMajorVersion+", "+currentMinorVersion);
+			throw new SafeCryptoException(-2, "not support encrypt version: "+currentMajorVersion+", "+currentMinorVersion);
 		}
 		return encryptor.encrypt(data, currentKeyId, currentMappingId);
 	}
