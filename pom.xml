@@ -47,7 +47,7 @@
         <dependency>
             <groupId>net.sf.jsqlx</groupId>
             <artifactId>jsqlx</artifactId>
-            <version>1.7.0</version>
+            <version>1.7.1</version>
         </dependency>
 
         <dependency>
