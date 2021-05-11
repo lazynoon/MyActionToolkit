@@ -257,7 +257,15 @@ public class CURL {
 		return this.disableSSLVerify;
 	}
 
-	protected String buildQuery(Map<String, String> params) throws UnsupportedEncodingException {
+	public String buildQuery(Mixed params) throws UnsupportedEncodingException {
+		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+		for(String key : params.keys()) {
+			map.put(key, params.getString(key));
+		}
+		return buildQuery(map);
+	}
+
+	public String buildQuery(Map<String, String> params) throws UnsupportedEncodingException {
 		StringBuilder build = new StringBuilder();
 		boolean first = true;
 		for(String key : params.keySet()) {
