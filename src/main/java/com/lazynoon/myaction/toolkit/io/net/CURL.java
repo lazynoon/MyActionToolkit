@@ -32,6 +32,7 @@ import org.apache.http.HttpRequest;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -81,6 +82,7 @@ public class CURL {
 	private InetSocketAddress proxyAddress = null;
 	private String proxyUser = null;
 	private String proxyPass = null;
+	private String cookieSpec = CookieSpecs.STANDARD;
 
 	public CURL setTimeout(long timeout) {
 		timeout = Math.min(timeout, Integer.MAX_VALUE);
@@ -122,6 +124,17 @@ public class CURL {
 		this.proxyUser = proxyUser;
 		this.proxyPass = proxyPass;
 		return this;
+	}
+
+	public String getCookieSpec() {
+		return cookieSpec;
+	}
+
+	public void setCookieSpec(String cookieSpec) {
+		if (cookieSpec == null || cookieSpec.length() == 0) {
+			throw new IllegalArgumentException("cookieSpec must be not empty");
+		}
+		this.cookieSpec = cookieSpec;
 	}
 
 	public Result get(String url, Map<String, String> params) throws IOException {
@@ -220,12 +233,15 @@ public class CURL {
 		return new Result(code, response.getAllHeaders(), content);
 	}
 	public Result post(String url, Map<String, String>params) throws ParseException, IOException {
-		int timeoutInt = (int)timeout;
+		int timeoutInt = (int)this.timeout;
 		CloseableHttpClient httpclient = getHttpClient();
 		HttpPost httpPost = new HttpPost(url);
 		//设置请求和传输超时时间
 		RequestConfig requestConfig = RequestConfig.custom()
-				.setSocketTimeout(timeoutInt).setConnectTimeout(timeoutInt).build();
+				.setSocketTimeout(timeoutInt)
+				.setConnectTimeout(timeoutInt)
+				.setCookieSpec(this.cookieSpec)
+				.build();
 		httpPost.setConfig(requestConfig);
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		for (String key : params.keySet()) {
