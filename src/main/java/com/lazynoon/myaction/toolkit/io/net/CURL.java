@@ -25,6 +25,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import myaction.utils.LogUtil;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -41,6 +42,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.ResponseProcessCookies;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.ClientConnectionManager;
@@ -72,6 +74,12 @@ public class CURL {
 		HTTP,
 		SOCK5
 	};
+	public enum LogLevel {
+		DEBUG,
+		INFO,
+		WARN,
+		ERROR
+	};
 	private long timeout = 30L * 1000L;
 	private LinkedHashMap<String, String> headers = null;
 	private LinkedHashMap<String, String> cookies = null;
@@ -83,6 +91,49 @@ public class CURL {
 	private String proxyUser = null;
 	private String proxyPass = null;
 	private String cookieSpec = CookieSpecs.STANDARD;
+
+	static {
+		try {
+			initLogLevel(LogLevel.ERROR); //默认不输出WARN及以下日志
+		} catch (Exception e) {
+			LogUtil.logError("CURL.initLogLevel", e);
+		}
+	}
+
+	public static void initLogLevel(LogLevel level) {
+		String simpleLogLevel;
+		java.util.logging.Level jdkLogLevel;
+		if (level == null) {
+			throw new IllegalArgumentException("CURL setLogLevel parameter is null");
+		} else if (level == LogLevel.DEBUG) {
+			simpleLogLevel = "debug";
+			jdkLogLevel = java.util.logging.Level.FINE;
+		} else if (level == LogLevel.INFO) {
+			simpleLogLevel = "info";
+			jdkLogLevel = java.util.logging.Level.INFO;
+		} else if (level == LogLevel.WARN) {
+			simpleLogLevel = "warn";
+			jdkLogLevel = java.util.logging.Level.WARNING;
+		} else if (level == LogLevel.ERROR) {
+			simpleLogLevel = "error";
+			jdkLogLevel = java.util.logging.Level.SEVERE;
+		} else {
+			throw new IllegalArgumentException("CURL setLogLevel parameter not support: " + level);
+		}
+		//清除缓存（非业务class绑定或初始化时有效）
+		org.apache.commons.logging.LogFactory.releaseAll();
+		//涉及的主要class
+		String[] httpClassNames = {
+				ResponseProcessCookies.class.getName()
+		};
+		//SimpleLog
+		String simpleLogKey = "org.apache.commons.logging.simplelog.org.apache.http.client";
+		System.setProperty(simpleLogKey, simpleLogLevel);
+		//JdkLog
+		for (String className : httpClassNames) {
+			java.util.logging.Logger.getLogger(className).setLevel(jdkLogLevel);
+		}
+	}
 
 	public CURL setTimeout(long timeout) {
 		timeout = Math.min(timeout, Integer.MAX_VALUE);
