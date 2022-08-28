@@ -294,6 +294,11 @@ public class CURL {
 				.setCookieSpec(this.cookieSpec)
 				.build();
 		httpPost.setConfig(requestConfig);
+		if(headers != null) {
+			for(String key : headers.keySet()) {
+				httpPost.setHeader(key, headers.get(key));
+			}
+		}
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		for (String key : params.keySet()) {
 			String value = params.get(key);
